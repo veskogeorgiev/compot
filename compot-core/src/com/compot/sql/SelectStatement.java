@@ -16,14 +16,15 @@ import com.compot.model.Metamodel;
 public class SelectStatement {
 	/** The main table to select from */
 	private Metamodel<?> metamodel;
-	private StringBuilder columns = new StringBuilder();
+	private List<Column> columns = new LinkedList<Column>();
+	// private StringBuilder columns = new StringBuilder();
 	private boolean distinct;
 	private List<String> joinTableTerms = new LinkedList<String>();
 	private Clause whereStatement;
 	private String order;
 	private int offest = -1;
 	private int limit = -1;
-	
+
 	private StringBuilder builder;
 
 	// /////////////////////////////////////////////////////////////////////////////////////////////
@@ -56,10 +57,7 @@ public class SelectStatement {
 	}
 
 	public SelectStatement addColumn(Column column) {
-		if (columns.length() > 0) {
-			columns.append(", ");
-		}
-		columns.append(column.getFullName() + " as " + column.getAlias());
+		columns.add(column);
 		return this;
 	}
 
@@ -108,7 +106,7 @@ public class SelectStatement {
 		if (distinct) {
 			append("distinct");
 		}
-		append(columns).append("from").append(metamodel.getTableName());
+		append(getColumnSelection()).append("from").append(metamodel.getTableName());
 
 		for (String join : joinTableTerms) {
 			append(join);
@@ -131,6 +129,18 @@ public class SelectStatement {
 	private SelectStatement append(Object s) {
 		builder.append(" ").append(s).append(" ");
 		return this;
+	}
+
+	private StringBuilder getColumnSelection() {
+		StringBuilder res = new StringBuilder();
+
+		for (Column col : columns) {
+			if (res.length() > 0) {
+				res.append(", ");
+			}
+			res.append(col.getFullName() + " as " + col.getAlias());
+		}
+		return res;
 	}
 
 	// /////////////////////////////////////////////////////////////////////////////////////////////
