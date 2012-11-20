@@ -23,15 +23,6 @@ public class FieldColumn implements Column {
 		this.field = field;
 	}
 
-	@Override
-	public boolean isAnnotationPresent(Class<? extends Annotation> annotationType) {
-		return field.isAnnotationPresent(annotationType);
-	}
-
-	@Override
-	public <T extends Annotation> T getAnnotation(Class<T> annotationType) {
-		return field.getAnnotation(annotationType);
-	}
 
 	@Override
 	public String getName() {
@@ -53,27 +44,60 @@ public class FieldColumn implements Column {
 		return field.getType();
 	}
 
-	@Override
+	/**
+	 * @param annotationType
+	 * @return Whether the given annotation is presented in this column's field
+	 */
+	public boolean isAnnotationPresent(Class<? extends Annotation> annotationType) {
+		return field.isAnnotationPresent(annotationType);
+	}
+
+	/**
+	 * @param annotationType
+	 * @return the requested annotation from this field
+	 */
+	public <T extends Annotation> T getAnnotation(Class<T> annotationType) {
+		return field.getAnnotation(annotationType);
+	}
+
+	/**
+	 * @return whether this column is the one annotated with {@link Id} or not
+	 */
 	public boolean isId() {
 		return field.isAnnotationPresent(Id.class);
 	}
 
-	@Override
+	/**
+	 * Returns the value of the this column in the given object
+	 * @param object
+	 * @throws IllegalArgumentException
+	 * @throws IllegalAccessException
+	 */
 	public Object get(Object object) throws IllegalArgumentException, IllegalAccessException {
 		return field.get(object);
 	}
 
-	@Override
+	/**
+	 * Sets the value of this column in the given object
+	 * @param object
+	 * @param value the value to set
+	 * @throws IllegalArgumentException
+	 * @throws IllegalAccessException
+	 */
 	public void set(Object object, Object value) throws IllegalArgumentException, IllegalAccessException {
 		field.set(object, value);
 	}
 
-	@Override
+	/**
+	 * @return whether this column is annotated with {@link Foreign}
+	 */
 	public boolean isForeign() {
 		return field.isAnnotationPresent(Foreign.class);
 	}
 
-	@Override
+	/**
+	 * @return the {@link Foreign} descriptor
+	 */
 	public Foreign getForeign() {
 		return field.getAnnotation(Foreign.class);
 	}

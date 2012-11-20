@@ -34,7 +34,7 @@ public class TableManager {
 
 	private CreateStatement createTable(Metamodel<?> mm) throws InvalidModelException {
 		CreateStatement statement = new CreateStatement(mm.getTableName());
-		for (Column col : mm.getColumns()) {
+		for (FieldColumn col : mm.getColumns()) {
 			statement.addColumn(col.getName(), typeManager.getSQLTypeDeclaration(col));
 			if (col.isForeign()) {
 				Foreign foreign = col.getForeign();

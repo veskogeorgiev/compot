@@ -16,8 +16,8 @@ import com.compot.InvalidModelException;
 public class Metamodel<T> {
 
 	private Class<T> type;
-	private Column[] columns;
-	private Column idColumn;
+	private FieldColumn[] columns;
+	private FieldColumn idColumn;
 	private Column typeColumn;
 
 	private Metamodel<? super T> parent;
@@ -31,7 +31,7 @@ public class Metamodel<T> {
 		this.children = children;
 	}
 
-	public Metamodel(Class<T> type, Column[] columns, Column idColumn, Metamodel<? super T> parent) {
+	public Metamodel(Class<T> type, FieldColumn[] columns, FieldColumn idColumn, Metamodel<? super T> parent) {
 		this.type = type;
 		this.columns = columns;
 		this.idColumn = idColumn;
@@ -64,7 +64,7 @@ public class Metamodel<T> {
 	/**
 	 * @return the columns defined in this Java type
 	 */
-	public Column[] getColumns() {
+	public FieldColumn[] getColumns() {
 		return columns;
 	}
 
@@ -72,7 +72,7 @@ public class Metamodel<T> {
 	 * The id column of this metamodel
 	 * @return
 	 */
-	public Column getIdColumn() {
+	public FieldColumn getIdColumn() {
 		return idColumn;
 	}
 

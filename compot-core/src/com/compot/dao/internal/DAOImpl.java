@@ -16,6 +16,7 @@ import com.compot.dao.DAO;
 import com.compot.dao.Query;
 import com.compot.dao.TypeManager;
 import com.compot.model.Column;
+import com.compot.model.FieldColumn;
 import com.compot.model.Metamodel;
 import com.compot.model.MetamodelFactory;
 import com.compot.sql.SelectStatement;
@@ -47,7 +48,7 @@ class DAOImpl<T> implements DAO<T>, CursorMapper<T> {
 			Object commonId = null;
 
 			for (Metamodel<?> m : mmHierarchy) {
-				Column idColumn = m.getIdColumn();
+				FieldColumn idColumn = m.getIdColumn();
 				Object id = idColumn.get(obj);
 	
 				if (id == null || id.equals(Long.valueOf(0))) {
@@ -175,7 +176,7 @@ class DAOImpl<T> implements DAO<T>, CursorMapper<T> {
 	 * @throws InstantiationException
 	 */
 	private void fill(Cursor cursor, Object obj, Metamodel<?> mm) throws IllegalArgumentException, IllegalAccessException, InstantiationException {
-		for (Column col : mm.getColumns()) {
+		for (FieldColumn col : mm.getColumns()) {
 			String name = col.getAlias();//FullName();
 			int colIdx = cursor.getColumnIndex(name);
 			if (colIdx >= 0) {

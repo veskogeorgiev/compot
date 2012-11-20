@@ -11,7 +11,7 @@ import com.compot.annotations.MaxLength;
 import com.compot.annotations.NotNull;
 import com.compot.annotations.Unique;
 import com.compot.dao.TypeManager;
-import com.compot.model.Column;
+import com.compot.model.FieldColumn;
 
 /**
  * {@link TypeManager} implementation
@@ -45,7 +45,7 @@ public class TypeManagerImpl implements TypeManager {
 	}
 
 	@Override
-	public String getSQLTypeDeclaration(Column col) throws InvalidModelException {
+	public String getSQLTypeDeclaration(FieldColumn col) throws InvalidModelException {
 		String sqlType = types.get(col.getType());
 		if (sqlType == null) {
 			throw new InvalidModelException(col.getType().getName() + " is not supported type");

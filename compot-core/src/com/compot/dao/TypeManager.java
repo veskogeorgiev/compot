@@ -3,7 +3,7 @@ package com.compot.dao;
 import android.database.Cursor;
 
 import com.compot.InvalidModelException;
-import com.compot.model.Column;
+import com.compot.model.FieldColumn;
 
 /**
  * A class used to bind Java type and SQL types.
@@ -17,7 +17,7 @@ public interface TypeManager {
 	 * @param col the column
 	 * @throws InvalidModelException if the model is incorrectly defined
 	 */
-	public String getSQLTypeDeclaration(Column col) throws InvalidModelException;
+	public String getSQLTypeDeclaration(FieldColumn col) throws InvalidModelException;
 
 	/**
 	 * Takes the column with <i>colIdx</i> from the cursor and ties to parse it 

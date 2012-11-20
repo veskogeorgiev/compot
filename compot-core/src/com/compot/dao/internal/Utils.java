@@ -8,7 +8,7 @@ import java.util.Map;
 import android.content.ContentValues;
 
 import com.compot.DBOperationException;
-import com.compot.model.Column;
+import com.compot.model.FieldColumn;
 import com.compot.model.Metamodel;
 
 /**
@@ -60,14 +60,14 @@ public class Utils {
 	public static <T> ContentValues contentValues(T obj, Metamodel<?> mm) throws IllegalArgumentException, IllegalAccessException, DBOperationException {
 		ContentValues cv = new ContentValues();
 
-		for (Column c : mm.getColumns()) {
+		for (FieldColumn c : mm.getColumns()) {
 			if (!c.isId()) {
 				putProperType(cv, c.getName(), c.getType(), c.get(obj));
 			}
 		}
 		// if it's a child table then assume we already have the Id
 		if (mm.hasParent()) {
-			Column idc = mm.getIdColumn();
+			FieldColumn idc = mm.getIdColumn();
 			putProperType(cv, idc.getName(), idc.getType(), idc.get(obj));
 		}
 		// if it's an abstract table, put type

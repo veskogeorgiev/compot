@@ -91,8 +91,8 @@ public class MetamodelBuilder {
 	}
 
 	private <T> Metamodel<T> create(Class<T> type) {
-		Column[] columns = getColumns(type);
-		Column idColumn = getIdColumn(type, columns);
+		FieldColumn[] columns = getColumns(type);
+		FieldColumn idColumn = getIdColumn(type, columns);
 
 		Metamodel<? super T> parent = getParent(type);
 
@@ -119,10 +119,10 @@ public class MetamodelBuilder {
 		return null;
 	}
 
-	private Column getIdColumn(Class<?> type, Column[] columns) {
-		Column idColumn = null;
+	private FieldColumn getIdColumn(Class<?> type, FieldColumn[] columns) {
+		FieldColumn idColumn = null;
 
-		for (Column col : columns) {
+		for (FieldColumn col : columns) {
 			if (col.isId()) {
 				idColumn = col;
 				break;
@@ -137,8 +137,8 @@ public class MetamodelBuilder {
 		return idColumn; 
 	}
 
-	private <T> Column[] getColumns(Class<T> type) {
-		LinkedList<Column> columns = new LinkedList<Column>();
+	private <T> FieldColumn[] getColumns(Class<T> type) {
+		LinkedList<FieldColumn> columns = new LinkedList<FieldColumn>();
 
 		for (Field f : type.getDeclaredFields()) {
 			if (!isTransient(f) && !isStatic(f)) {
@@ -148,7 +148,7 @@ public class MetamodelBuilder {
 				columns.add(new FieldColumn(f));
 			}
 		}
-		return columns.toArray(new Column[0]);
+		return columns.toArray(new FieldColumn[0]);
 	}
 
 	private boolean isStatic(Field f) {
