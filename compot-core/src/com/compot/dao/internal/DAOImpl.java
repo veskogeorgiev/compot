@@ -64,7 +64,10 @@ class DAOImpl<T> implements DAO<T>, CursorMapper<T> {
 					}
 				}
 				else {
-					db.update(m.getTableName(), Utils.contentValues(obj, m), Utils.kv(m.getId()), Utils.strings(idColumn.get(obj)));
+					db.update(m.getTableName(), 
+							Utils.contentValues(obj, m), 
+							Utils.kv(m.getIdColumn().getName()), 
+							Utils.strings(idColumn.get(obj)));
 				}
 			}
 		}
@@ -85,9 +88,25 @@ class DAOImpl<T> implements DAO<T>, CursorMapper<T> {
 	}
 
 	@Override
-	public boolean delete(Object obj) {
-		// TODO implement me
-		throw new RuntimeException("Not Implemented");
+	public boolean delete(T obj) {
+		LinkedList<Metamodel<?>> mms = metamodel.getHierarchyParentLast();
+		FieldColumn idColumn = metamodel.getIdColumn();
+		Long id = (Long) idColumn.get(obj);
+
+		if (id == null || id == 0) {
+			return false;
+		}
+
+		int totalCnt = 0;
+
+		for (Metamodel<?> m : mms) {
+			int cnt = db.delete(m.getTableName(), 
+					Utils.kv(m.getIdColumn().getName()), 
+					Utils.strings(id));
+			totalCnt += cnt;
+		}
+
+		return totalCnt == mms.size();
 	}
 
 	// ////////////////////////////////////////////////////////////////////
@@ -228,7 +247,7 @@ class DAOImpl<T> implements DAO<T>, CursorMapper<T> {
 	 * @return the id of the inserted row
 	 */
 	protected long insert(Metamodel<?> mm, ContentValues cv) {
-		String nullValueHack = cv.size() == 0 ? metamodel.getId() : null;
+		String nullValueHack = cv.size() == 0 ? metamodel.getIdColumn().getName() : null;
 		return db.insertOrThrow(mm.getTableName(), nullValueHack, cv);
 	}
 

@@ -1,11 +1,13 @@
-/**
+/**me
  * 
  */
 package com.compot.test;
 
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
@@ -26,13 +28,11 @@ public abstract class CompotTest extends AndroidTestCase {
 
 	CompotFactory compotFactory;
 
-	List<Teacher> teachersList;
-	List<Student> studentsList;
 
 	Faculty faculty;
-	Set<Teacher> teachers;
-	Set<Student> students;
-	Set<Person> all;
+	List<Teacher> teachers;
+	List<Student> students;
+	List<Person> all;
 
 	@Override
 	protected void setUp() throws Exception {
@@ -49,18 +49,16 @@ public abstract class CompotTest extends AndroidTestCase {
 
 	protected void generateTestData() {
 		faculty = new Faculty();
-		studentsList = Arrays.asList(
+		students = Arrays.asList(
 			new Student("Vesko", 23, faculty.id, "123456", true),
 			new Student("Jivko", 14, faculty.id, "190384", false)
 		);
-		teachersList = Arrays.asList(
+		teachers = Arrays.asList(
 			new Teacher("Brügge", 50, faculty.id, "Software Engineering"),
 			new Teacher("Monahov", 28, faculty.id, "Web Engineering")
 		);
 
-		students = new HashSet<Student>(studentsList);
-		teachers = new HashSet<Teacher>(teachersList);
-		all = new HashSet<Person>();
+		all = new LinkedList<Person>();
 		all.addAll(students);
 		all.addAll(teachers);
 	}
@@ -73,5 +71,11 @@ public abstract class CompotTest extends AndroidTestCase {
 			s.facultyId = faculty.id;
 			compot.save(s);
 		}
+	}
+
+	protected void assertSame(Collection<?> expected, Collection<?> result) {
+		Set<Object> set1 = new HashSet<Object>(expected);
+		Set<Object> set2 = new HashSet<Object>(result);
+		assertEquals(set1, set2);
 	}
 }

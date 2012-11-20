@@ -56,7 +56,7 @@ public class TableManager {
 
 		// constraint the primary key as a foreign to the parent table
 		String parentTableName = mm.getParent().getTableName();
-		String idField = mm.getId();
+		String idField = mm.getIdColumn().getName();
 		statement.addForeignKey(idField, parentTableName, idField, CascadeOperation.ON_DELETE);
 
 		return statement;

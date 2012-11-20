@@ -77,13 +77,6 @@ public class Metamodel<T> {
 	}
 
 	/**
-	 * @return id column simple name
-	 */
-	public String getId() {
-		return idColumn.getName();
-	}
-
-	/**
 	 * the table name of this 
 	 * @return
 	 */
@@ -112,6 +105,7 @@ public class Metamodel<T> {
 	 * @throws InvalidModelException if the model is incorrectly defined
 	 */
 	public LinkedList<Metamodel<?>> getHierarchyParentFirst() throws InvalidModelException {
+		// TODO cache ???
 		LinkedList<Metamodel<?>> ret = new LinkedList<Metamodel<?>>();
 		Metamodel<? super T> mm = this;
 
@@ -130,8 +124,29 @@ public class Metamodel<T> {
 	 * @throws InvalidModelException if the model is incorrectly defined
 	 */
 	public LinkedList<Metamodel<?>> getHierarchyParentFirstExclusive() throws InvalidModelException {
+		// TODO cache ???
 		LinkedList<Metamodel<?>> ret = getHierarchyParentFirst();
 		ret.removeLast();
+		return ret;
+	}
+
+	/**
+	 * @return If we have the hierarchy A extends B extends C, and this metamodel's type is A, 
+	 * then the result would be C, B, A
+	 *    
+	 * @throws InvalidModelException if the model is incorrectly defined
+	 */
+	public LinkedList<Metamodel<?>> getHierarchyParentLast() throws InvalidModelException {
+		// TODO cache ???
+		LinkedList<Metamodel<?>> ret = new LinkedList<Metamodel<?>>();
+		Metamodel<? super T> mm = this;
+
+		ret.addFirst(mm);
+
+		while (mm.hasParent()) {
+			mm = mm.getParent();
+			ret.add(mm);
+		}
 		return ret;
 	}
 

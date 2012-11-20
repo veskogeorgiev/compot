@@ -73,8 +73,18 @@ public class FieldColumn implements Column {
 	 * @throws IllegalArgumentException
 	 * @throws IllegalAccessException
 	 */
-	public Object get(Object object) throws IllegalArgumentException, IllegalAccessException {
-		return field.get(object);
+	public Object get(Object object) {
+		// TODO ?? throw RuntimeException
+		try {
+			return field.get(object);
+		}
+		catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		}
+		catch (IllegalAccessException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 	/**

@@ -24,10 +24,10 @@ public class FetchTest extends CompotTest {
 
 		Object obj;
 		obj = compot.query(Student.class).filterEquals(Person_.NAME, "Vesko").first();
-		assertEquals(studentsList.get(0), obj);
+		assertEquals(students.get(0), obj);
 
 		obj = compot.query(Person.class).filterEquals(Person_.NAME, "Vesko").first();
-		assertEquals(studentsList.get(0), obj);
+		assertEquals(students.get(0), obj);
 
 		List<Person> all = compot.query(Person.class).fetch();
 
