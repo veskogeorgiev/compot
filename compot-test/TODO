@@ -1,0 +1,7 @@
+*. Fetch to use iterable instead of list
+*. cerate .size() method in query
+*. getReadableCompot() and getWritableCompot() ???
+*. implement clone on SelectStatment and cache it in DAOImpl
+*. implement delete() like query(), so that you don't have to first fetch an object and then delete it	 
+*. add support for more SQL type
+*. probably combine Compot and CompotFactory in on object
