@@ -19,7 +19,7 @@ public class UpdateTest extends CompotTest {
 		s.enrolled = true;
 		compot.save(s);
 
-		List<Student> res = compot.query(Student.class).filterEquals(Person_.NAME, "Test").fetch();
+		List<Student> res = compot.query(Student.class).equals(Person_.NAME, "Test").fetch();
 		assertEquals(1, res.size());
 		assertEquals(s, res.get(0));
 	}

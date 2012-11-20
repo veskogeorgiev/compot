@@ -23,10 +23,10 @@ public class FetchTest extends CompotTest {
 		Compot compot = compotFactory.getCompot();
 
 		Object obj;
-		obj = compot.query(Student.class).filterEquals(Person_.NAME, "Vesko").first();
+		obj = compot.query(Student.class).equals(Person_.NAME, "Vesko").first();
 		assertEquals(students.get(0), obj);
 
-		obj = compot.query(Person.class).filterEquals(Person_.NAME, "Vesko").first();
+		obj = compot.query(Person.class).equals(Person_.NAME, "Vesko").first();
 		assertEquals(students.get(0), obj);
 
 		List<Person> all = compot.query(Person.class).fetch();
