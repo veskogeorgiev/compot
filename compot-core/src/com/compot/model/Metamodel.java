@@ -14,11 +14,11 @@ import com.compot.InvalidModelException;
  * @author <a href="mailto:vesko.m.georgiev@gmail.com">Vesko Georgiev<a>
  */
 public class Metamodel<T> {
-	private static final String TYPE = "type";
 
 	private Class<T> type;
 	private Column[] columns;
 	private Column idColumn;
+	private Column typeColumn;
 
 	private Metamodel<? super T> parent;
 	private Metamodel<? extends T>[] children;
@@ -36,6 +36,8 @@ public class Metamodel<T> {
 		this.columns = columns;
 		this.idColumn = idColumn;
 		this.parent = parent;
+
+		typeColumn = new TypeColumn(this);
 	}
 
 	/**
@@ -163,13 +165,6 @@ public class Metamodel<T> {
 	}
 
 	/**
-	 * @return 'tableName'.'getTypeColumn()'
-	 */
-	public String getFullTypeColumn() {
-		return getTableName() + "." + getTypeColumn();
-	}
-
-	/**
 	 * Returns the full type column name. The type column is not an actual column. It 
 	 * exists in the DB table, but not in the Java type. In the type column is saved the 
 	 * actual type of an object. e.g. if we have the hierarchy: A extends B extends C and 
@@ -178,15 +173,8 @@ public class Metamodel<T> {
 
 	 * @return the type column
 	 */
-	public String getTypeColumn() {
-		return getTableName() + "_" + TYPE;
-	}
-
-	/**
-	 * @return the alias of the type column to put in the 'as' SQL statement
-	 */
-	public String getTypeColumnAlias() {
-		return getTableName() + "_" + getTypeColumn();
+	public Column getTypeColumn() {
+		return typeColumn;
 	}
 
 	/**

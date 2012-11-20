@@ -72,7 +72,7 @@ public class Utils {
 		}
 		// if it's an abstract table, put type
 		if (mm.isParent()) {
-			cv.put(mm.getTypeColumn(), obj.getClass().getName());
+			cv.put(mm.getTypeColumn().getName(), obj.getClass().getName());
 		}
 		return cv;
 	}

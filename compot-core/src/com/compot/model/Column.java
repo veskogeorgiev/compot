@@ -1,76 +1,49 @@
 package com.compot.model;
 
-import java.lang.reflect.Field;
+import java.lang.annotation.Annotation;
 
 import com.compot.annotations.Foreign;
 import com.compot.annotations.Id;
 
 /**
- * Metadata for binding a Java class field and a column in the database.
+ * Metadata for describing an SQL table column
  * 
  * @author <a href="mailto:vesko.m.georgiev@gmail.com">Vesko Georgiev<a>
  */
-public class Column {
-
-	// //////////////////////////////////////////////////////////////
-	// Member fields
-	// //////////////////////////////////////////////////////////////
-
-	private Field field;
-
-	public Column(Field field) {
-		this.field = field;
-	}
+public interface Column {
 
 	/**
-	 * @return the metamodel this column belongs to
+	 * @param annotationType
+	 * @return Whether the given annotation is presented in this column's field
 	 */
-	public Metamodel<?> getMetamodel() {
-		return MetamodelFactory.get(field.getDeclaringClass());
-	}
+	public boolean isAnnotationPresent(Class<? extends Annotation> annotationType);
 
 	/**
-	 * @return the Java class field
+	 * @param annotationType
+	 * @return the requested annotation from this field
 	 */
-	public Field getField() {
-		return field;
-	}
+	public <T extends Annotation> T getAnnotation(Class<T> annotationType);
 
 	/**
-	 * @return the Java class field name
+	 * @return the name of this column name
 	 */
-	public String getName() {
-		return field.getName();
-	}
-
-	/**
-	 * @return the Java class field type
-	 */
-	public Class<?> getType() {
-		return field.getType();
-	}
-
-	/**
-	 * @return whether this column is the one annotated with {@link Id} or not
-	 */
-	public boolean isId() {
-		return field.isAnnotationPresent(Id.class);
-	}
+	public String getName();
 
 	/**
 	 * Returns the fully qualified name of the table column 
 	 * @return 'tableName'.'fieldName'. 
 	 */
-	public String getFullName() {
-		return getMetamodel().getTableName() + "." + getName();
-	}
+	public String getFullName();
 
 	/**
 	 * @return column alias to but in the 'as' statement in the SQL query
 	 */
-	public String getAlias() {
-		return getMetamodel().getTableName() + "_" + getName();		
-	}
+	public String getAlias();
+
+	/**
+	 * @return the Java class field type
+	 */
+	public Class<?> getType();
 
 	/**
 	 * Returns the value of the this column in the given object
@@ -78,9 +51,7 @@ public class Column {
 	 * @throws IllegalArgumentException
 	 * @throws IllegalAccessException
 	 */
-	public Object get(Object object) throws IllegalArgumentException, IllegalAccessException {
-		return field.get(object);
-	}
+	public Object get(Object object) throws IllegalArgumentException, IllegalAccessException;
 
 	/**
 	 * Sets the value of this column in the given object
@@ -89,22 +60,21 @@ public class Column {
 	 * @throws IllegalArgumentException
 	 * @throws IllegalAccessException
 	 */
-	public void set(Object object, Object value) throws IllegalArgumentException, IllegalAccessException {
-		field.set(object, value);
-	}
+	public void set(Object object, Object value) throws IllegalArgumentException, IllegalAccessException;
+
+	/**
+	 * @return whether this column is the one annotated with {@link Id} or not
+	 */
+	public boolean isId();
 
 	/**
 	 * @return whether this column is annotated with {@link Foreign}
 	 */
-	public boolean isForeign() {
-		return field.isAnnotationPresent(Foreign.class);
-	}
+	public boolean isForeign();
 
 	/**
 	 * @return the {@link Foreign} descriptor
 	 */
-	public Foreign getForeign() {
-		return field.getAnnotation(Foreign.class);
-	}
+	public Foreign getForeign();
 
 }

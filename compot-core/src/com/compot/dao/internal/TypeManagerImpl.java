@@ -1,6 +1,5 @@
 package com.compot.dao.internal;
 
-import java.lang.reflect.Field;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,30 +47,29 @@ public class TypeManagerImpl implements TypeManager {
 	@Override
 	public String getSQLTypeDeclaration(Column col) throws InvalidModelException {
 		String sqlType = types.get(col.getType());
-		Field field = col.getField();
 		if (sqlType == null) {
 			throw new InvalidModelException(col.getType().getName() + " is not supported type");
 		}
 		StringBuilder builder = new StringBuilder(sqlType);
 
-		if (field.isAnnotationPresent(MaxLength.class)) {
-			MaxLength maxLength = field.getAnnotation(MaxLength.class);
+		if (col.isAnnotationPresent(MaxLength.class)) {
+			MaxLength maxLength = col.getAnnotation(MaxLength.class);
 			if (col.getType() != String.class) {
-				throw new InvalidModelException("Invalid usage of " + MaxLength.class + " in field " + field);
+				throw new InvalidModelException("Invalid usage of " + MaxLength.class + " in column " + col);
 			}
 			builder.append("(" + maxLength.value() + ")");
 		}
 
-		if (field.isAnnotationPresent(NotNull.class)) {
+		if (col.isAnnotationPresent(NotNull.class)) {
 			builder.append(" NOT NULL");
 		}
 
-		if (field.isAnnotationPresent(Id.class)) {
+		if (col.isAnnotationPresent(Id.class)) {
 			builder.append(" PRIMARY KEY");
 			builder.append(" NOT NULL");
 		}
 
-		if (field.isAnnotationPresent(Unique.class)) {
+		if (col.isAnnotationPresent(Unique.class)) {
 			builder.append(" UNIQUE");
 		}
 		return builder.toString();

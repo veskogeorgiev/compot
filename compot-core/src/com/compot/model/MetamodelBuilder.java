@@ -145,7 +145,7 @@ public class MetamodelBuilder {
 				if (!f.isAccessible()) {
 					f.setAccessible(true);
 				}
-				columns.add(new Column(f));
+				columns.add(new FieldColumn(f));
 			}
 		}
 		return columns.toArray(new Column[0]);

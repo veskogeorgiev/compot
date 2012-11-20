@@ -65,7 +65,7 @@ public class TableManager {
 	private CreateStatement createParentTable(Metamodel<?> mm) throws InvalidModelException {
 		CreateStatement statement = createTable(mm);
 		// add a column to hold the actual type
-		statement.addColumn(mm.getTypeColumn(), "varchar(100) NOT NULL");
+		statement.addColumn(mm.getTypeColumn().getName(), "varchar(100) NOT NULL");
 
 		return statement;
 	}

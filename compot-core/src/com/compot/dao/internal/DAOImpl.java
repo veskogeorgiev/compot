@@ -212,8 +212,8 @@ class DAOImpl<T> implements DAO<T>, CursorMapper<T> {
 	@SuppressWarnings("unchecked")
 	private Class<? extends T> getActualType(Cursor cursor) throws ClassNotFoundException {
 		if (metamodel.isParent()) {
-			String typeColumn = metamodel.getTypeColumnAlias();
-			int colIdx = cursor.getColumnIndex(typeColumn);
+			Column typeColumn = metamodel.getTypeColumn();
+			int colIdx = cursor.getColumnIndex(typeColumn.getAlias());
 			String className = cursor.getString(colIdx);
 			return (Class<? extends T>) Class.forName(className);
 		}

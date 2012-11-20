@@ -56,14 +56,10 @@ public class SelectStatement {
 	}
 
 	public SelectStatement addColumn(Column column) {
-		return addColumn(column.getFullName(), column.getAlias());
-	}
-
-	public SelectStatement addColumn(String column, String alias) {
 		if (columns.length() > 0) {
 			columns.append(", ");
 		}
-		columns.append(column + " as " + alias);
+		columns.append(column.getFullName() + " as " + column.getAlias());
 		return this;
 	}
 
@@ -101,7 +97,7 @@ public class SelectStatement {
 			addColumn(c);
 		}
 		if (mm.isParent()) {
-			addColumn(mm.getFullTypeColumn(), mm.getTypeColumnAlias());
+			addColumn(mm.getTypeColumn());
 		}
 	}
 
