@@ -38,7 +38,7 @@ public interface Query<T> {
 	 * @param value the regex to match in the filter
 	 * @return this query
 	 */
-	public <Val> Query<T> filterLike(Column col, Val value);
+	public <Val> Query<T> like(Column col, Val value);
 
 	/**
 	 * Filters a column by exact value. The value is  
@@ -48,7 +48,7 @@ public interface Query<T> {
 	 * @param value the value to match in the filter
 	 * @return this query
 	 */
-	public <Val> Query<T> filterEquals(Column col, Val value);
+	public <Val> Query<T> equals(Column col, Val value);
 
 	/**
 	 * Marks the query with distinct or not. By default is false

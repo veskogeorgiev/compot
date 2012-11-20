@@ -52,13 +52,13 @@ public class QueryImpl<T> implements Query<T> {
 	}
 
 	@Override
-	public <Val> Query<T> filterLike(Column col, Val value) {
+	public <Val> Query<T> like(Column col, Val value) {
 		getWhere().like(col.getAlias(), value.toString());
 		return this;
 	}
 
 	@Override
-	public <Val> Query<T> filterEquals(Column col, Val value) {
+	public <Val> Query<T> equals(Column col, Val value) {
 		getWhere().equals(col.getAlias(), value);
 		return this;
 	}

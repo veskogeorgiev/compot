@@ -35,7 +35,6 @@ public class SelectStatement {
 	/** The main table to select from */
 	private Metamodel<?> metamodel;
 	private List<Column> columns = new LinkedList<Column>();
-	// private StringBuilder columns = new StringBuilder();
 	private boolean distinct;
 	private List<String> joinTableTerms = new LinkedList<String>();
 	private Clause whereStatement;

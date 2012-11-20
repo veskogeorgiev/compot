@@ -97,7 +97,7 @@ class DAOImpl<T> implements DAO<T>, CursorMapper<T> {
 
 	@Override
 	public T findById(long id) {
-		return query().filterEquals(metamodel.getIdColumn(), id).first();
+		return query().equals(metamodel.getIdColumn(), id).first();
 	}
 
 	@Override
