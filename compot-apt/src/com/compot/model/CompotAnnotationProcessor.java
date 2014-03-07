@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Set;
 
 import javax.annotation.processing.AbstractProcessor;
+import javax.annotation.processing.FilerException;
 import javax.annotation.processing.ProcessingEnvironment;
 import javax.annotation.processing.RoundEnvironment;
 import javax.lang.model.element.Element;
@@ -28,7 +29,24 @@ public abstract class CompotAnnotationProcessor extends AbstractProcessor {
 		this.env = processingEnv;
 	}
 
-	protected List<Element> getEntityElements(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) throws IOException {
+    @Override
+    public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
+        try {
+            List<Element> entities = getEntityElements(annotations, roundEnv);
+            generateSources(entities);
+        }
+        catch (FilerException e) {
+        //    env.getMessager().printMessage(Diagnostic.Kind.NOTE, "Tried to recreate source file. " + e.getMessage());
+        }
+        catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+        return false;
+    }
+
+    protected abstract void generateSources(List<Element> entities) throws IOException;
+
+    protected List<Element> getEntityElements(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) throws IOException {
 		List<Element> entities = new LinkedList<Element>();
 		for (TypeElement ann : annotations) {
 			for (Element el : roundEnv.getElementsAnnotatedWith(ann)) {

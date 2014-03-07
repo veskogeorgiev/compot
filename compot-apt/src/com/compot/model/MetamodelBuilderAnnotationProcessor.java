@@ -3,33 +3,18 @@ package com.compot.model;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
-import java.util.Set;
 
-import javax.annotation.processing.RoundEnvironment;
 import javax.annotation.processing.SupportedAnnotationTypes;
 import javax.annotation.processing.SupportedSourceVersion;
 import javax.lang.model.SourceVersion;
 import javax.lang.model.element.Element;
-import javax.lang.model.element.TypeElement;
 import javax.tools.JavaFileObject;
 
-@SupportedAnnotationTypes(value = {"com.compot.annotations.Entity"})
-@SupportedSourceVersion(SourceVersion.RELEASE_6)
+@SupportedAnnotationTypes("com.compot.annotations.Entity")
+@SupportedSourceVersion(SourceVersion.RELEASE_7)
 public class MetamodelBuilderAnnotationProcessor extends CompotAnnotationProcessor {
 
-	@Override
-	public boolean process(Set<? extends TypeElement> annotations, RoundEnvironment roundEnv) {
-		try {
-			List<Element> entities = getEntityElements(annotations, roundEnv);
-			generateBootstrapBuilder(entities);
-		}
-		catch (IOException e) {
-			throw new RuntimeException(e);
-		}
-		return false;
-	}
-
-	private void generateBootstrapBuilder(List<Element> entities) throws IOException {
+	protected void generateSources(List<Element> entities) throws IOException {
 		JavaFileObject jfo = env.getFiler().createSourceFile(BOOTSTRAP_CLASS_NAME);
 		PrintWriter writer = new PrintWriter(jfo.openWriter());
 		JavaWriter jw = new JavaWriter(writer);
