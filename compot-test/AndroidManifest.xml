@@ -8,7 +8,7 @@
 
     <instrumentation
         android:name="android.test.InstrumentationTestRunner"
-        android:targetPackage="com.compot" />
+        android:targetPackage="com.compot.test" />
 
     <application
         android:debuggable="true"
