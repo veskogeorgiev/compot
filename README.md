@@ -9,7 +9,7 @@ Latest version: beta-0.1 supports:
 
 Compot lets you start with your application logic right away. No boilerplate code!
 
-```
+```java
 @Entity
 public class Person {
   @Id
